@@ -1,11 +1,5 @@
 # Final Project
 
-## Instructions
-
-This repository is a stub for your final project. Fork it as a template for your project, and develop your code in the forked repository. For details on how to fork and turn in the project, see section 3 of the github education  [documentation](https://education.github.com/guide/forks). After you fork the repository, please enable the issue tracker in the repository settings so that others in the class (including the professor) can provide feedback.
-
-Expand on the readme questions below to provide an overview of the goals, background, and challenges for the final project. You can delete the questions as you write text that answers them, or leave the prompts in place. You can also delete this instruction section of you like.
-
 ## Introduction
 
 This is a final project for the [Interacting with Data](https://github.com/Brown-BIOL2430-S04-Fall2015/syllabus) seminar in fall 2015. This project (a very brief, ie 1-2 sentence, overview of the project)...
@@ -14,16 +8,12 @@ To view this project, ... (embed visualization here or provide instructions on h
 
 ## The data
 
-Description of data...
-
-- Data source (simulated/ published/ unpublished?)
-- Data structure - what are the variables? How are they organized? What states can they have
+- The data source for this project is unpublished, and therefore the true names for the data have been substituded by fake names and values have been replaced by randomly generated numbers that fall within the range of true values. 
+- The data represented here are morphometric variables. Some are linear morphological measurements, some are area, and some are mass. In addition to these continuous variables, there are several characterizations that are discrete.
 
 ## Background
 
-Examples of previous visualizations of similar data or processes, if any exist... Include links or add images to markdown document... how were data mapped to aesthetics in these previous approaches? Was there filtering?
-
-Shortcomings of previous approaches, or potentially interesting gaps between previous approaches...
+Since this data is currently unpublished, I am unable to provide links and images to previously existing graphics. However, in this dataset we are dealing with 178 points that fit into 9 groups. Consequently, the use of color to distinguish groups isn't very effective with so many different colors. In addition, while the reader may be able to distinguish groups based on color, many of the points represent specific species of interest that have been extensively studied, and the viewer may want to find a specific species on the plot. Therefore, an interactive approach would allow the viewer to highlight objects of interest, and allowing the viewer to interact with the phylogeny would allow them to gain some context for the distribution at different areas in the tree. 
 
 ## This project
 
