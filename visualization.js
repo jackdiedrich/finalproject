@@ -3,6 +3,19 @@ var h = 500;
 var paddingSides = 30;
 var paddingBottom = 20;
 
+var genera = ["A","B","C","D","E","F","G","H","I","J"];
+
+colors = ["rgba(166,206,227,",
+	"rgba(31,120,180,",
+	"rgba(178,223,138,",
+	"rgba(51,160,44,",
+	"rgba(251,154,153,",
+	"rgba(227,26,28,",
+	"rgba(253,191,111,",
+	"rgba(255,127,0,",
+	"rgba(202,178,214,",
+	"rgba(106,61,154,"]
+
 d3.select("#plotDiv1")
 	.append("svg")
 	.attr("width",w)
@@ -40,10 +53,10 @@ d3.csv("fakedata.csv", function(data) {
 	writeNamesAll(dataset);
 	drawCircles(dataset);
 	highlightCircle();
+	highlightGenus();
 });
 
 function writeHeadings(){
-	var genera = ["A","B","C","D","E","F","G","H","I","J"]
 	d3.select("#speciesList")
 		.selectAll("h3")
 		.data(genera)
@@ -52,8 +65,13 @@ function writeHeadings(){
 		.attr("id",function(d){
 			return d;
 		})
+		.append("span")
+		.attr("class","header")
+		.attr("id",function(d){
+			return d;
+		})
 		.text(function(d){
-			return "Genus "+d;
+			return d;
 		});
 }
 function writeNamesAll(dataset){
@@ -113,38 +131,11 @@ function drawCircles(dataset){
 			return dAreaScale(d.d_area);
 		})
 		.attr("fill",function(d){
-			if (d.genus == "A"){
-				return "rgba(166,206,227,0.3)";
-			}
-			else if (d.genus == "B"){
-				return "rgba(31,120,180,0.3)";
-			}
-			else if (d.genus == "C"){
-				return "rgba(178,223,138,0.3)";
-			}
-			else if (d.genus == "D"){
-				return "rgba(51,160,44,0.3)";
-			}
-			else if (d.genus == "E"){
-				return "rgba(251,154,153,0.3)";
-			}
-			else if (d.genus == "F"){
-				return "rgba(227,26,28,0.3)";
-			}
-			else if (d.genus == "G"){
-				return "rgba(253,191,111,0.3)";
-			}
-			else if (d.genus == "H"){
-				return "rgba(255,127,0,0.3)";
-			}
-			else if (d.genus == "I"){
-				return "rgba(202,178,214,0.3)";
-			}
-			else if (d.genus == "J"){
-				return "rgba(106,61,154,0.3)";
-			}
-			
-		});
+			for (i = 0; i < genera.length; i++) 
+				if (d.genus == genera[i]){
+					return colors[i] + "0.3)";
+				}
+			});
 }
 function highlightCircle(){
 	var colorOfSelect;
@@ -163,15 +154,58 @@ function highlightCircle(){
 					}
 				});
 			colorOfSelect = corrPoint.style("fill");
-			corrPoint.style("fill","rgba(0,0,0,1)");
+			corrPoint.transition().attr("r","12");
 
 		});
 		d3.select("#speciesList")
 			.selectAll("p")
 			.on("mouseout",function(){
-				corrPoint.style("fill",colorOfSelect);
+				corrPoint.transition().attr("r","5").style("fill",colorOfSelect);
 			});
 }
 function highlightGenus(){
-	
+	var genusID;
+	d3.select("#speciesList")
+		.selectAll("span.header")
+		.on("mouseover",function(){
+			genusID = d3.select(this).attr("id");
+			console.log(genusID);
+			d3.select("#plotDiv1")
+			.selectAll("circle")
+			.filter(function(){
+				if (d3.select(this).attr("class") == genusID){
+					return this;
+				}
+			})
+			.transition()
+			.attr("r","7")
+			.style("fill",function(){
+				for (i = 0; i < genera.length; i++){ 
+					if (genusID == genera[i]){
+						return colors[i] + "0.7)";
+					}
+				}
+			});
+		});
+	d3.select("#speciesList")
+		.selectAll("span.header")
+		.on("mouseout",function(){
+			console.log(genusID);
+			d3.select("#plotDiv1")
+			.selectAll("circle")
+			.filter(function(){
+				if (d3.select(this).attr("class") == genusID){
+					return this;
+				}
+			})
+			.transition()
+			.attr("r","5")
+			.style("fill",function(){
+				for (i = 0; i < genera.length; i++){ 
+					if (genusID == genera[i]){
+						return colors[i] + "0.3)";
+					}
+				}
+			});
+		});
 }
