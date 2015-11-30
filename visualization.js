@@ -4,6 +4,7 @@ var paddingRight = 5;
 var paddingLeft = 50;
 var paddingBottom = 35;
 var xLabelPadding = 0;
+var pcPadding = 0.005;
 
 var yLabelX = 5;
 var yLabelY = h/2 - 60;
@@ -25,18 +26,23 @@ d3.select("#plotDiv1")
 	.append("svg")
 	.attr("width",w)
 	.attr("height",h);
+	
+d3.select("#plotDiv2")
+	.append("svg")
+	.attr("width",w)
+	.attr("height",h);
 
 d3.csv("fakedata.csv", function(data) {
 	var dataset = data;
 
+	//Build plot 1 (seed volume vs. diaspore area)
 	svScale = d3.scale.linear()
 		.domain([0,d3.max(dataset,function(d){return Number(d["sv"])})])
 		.range([paddingLeft,w-paddingRight]);
 	dAreaScale = d3.scale.linear()
 		.domain([d3.max(dataset,function(d){return Number(d["d_area"])}),0])
 		.range([paddingBottom,h-paddingBottom]);
-	
-	var xAxis = d3.svg.axis()
+	var xAxisPlotOne = d3.svg.axis()
 	  .scale(svScale)
 	  .orient("bottom");
 	d3.select("#plotDiv1")
@@ -44,7 +50,7 @@ d3.csv("fakedata.csv", function(data) {
 		.append("g")
 		.attr("class","axis")
 		.attr("transform", "translate(0," + (h - paddingBottom) + ")")
-		.call(xAxis);
+		.call(xAxisPlotOne);
 	d3.select("#plotDiv1")
 		.select("svg")
 		.append("text")
@@ -56,7 +62,7 @@ d3.csv("fakedata.csv", function(data) {
 			return h - xLabelPadding;
 		})
 		.text("Seed Volume (mm^3)");
-	var yAxis = d3.svg.axis()
+	var yAxisPlotOne = d3.svg.axis()
 	  .scale(dAreaScale)
 	  .orient("left");
 	d3.select("#plotDiv1")
@@ -64,7 +70,7 @@ d3.csv("fakedata.csv", function(data) {
 		.append("g")
 		.attr("class","axis")
 		.attr("transform", "translate(" + paddingLeft + ",0)")
-		.call(yAxis);
+		.call(yAxisPlotOne);
 	d3.select("#plotDiv1")
 		.select("svg")
 		.append("text")
@@ -77,6 +83,56 @@ d3.csv("fakedata.csv", function(data) {
 		})
 		.attr("transform","rotate(90 "+yLabelX+" "+yLabelY+")")
 		.text("Diaspore Area (cm^2)");
+		
+	//Build plot 2 (pc1 vs. pc2)
+	pcOneScale = d3.scale.linear()
+		.domain([d3.min(dataset,function(d){return Number(d["pc1"])})-pcPadding,d3.max(dataset,function(d){return Number(d["pc1"])})+pcPadding])
+		.range([paddingLeft,w-paddingRight]);
+	pcTwoScale = d3.scale.linear()
+		.domain([d3.max(dataset,function(d){return Number(d["pc2"])})+pcPadding,d3.min(dataset,function(d){return Number(d["pc2"])})-pcPadding])
+		.range([paddingBottom,h-paddingBottom]);
+	var xAxisPCOnePlotTwo = d3.svg.axis()
+	  .scale(svScale)
+	  .orient("bottom");
+	d3.select("#plotDiv2")
+		.select("svg")
+		.append("g")
+		.attr("class","axis")
+		.attr("transform", "translate(0," + (h - paddingBottom) + ")")
+		.call(xAxisPCOnePlotTwo);
+	d3.select("#plotDiv2")
+		.select("svg")
+		.append("text")
+		.attr("class","axisLabel")
+		.attr("x",function(){
+			return w/2 - 50;
+		})
+		.attr("y",function(){
+			return h - xLabelPadding;
+		})
+		.text("PC 1");
+	var yAxisPCTwoPlotTwo = d3.svg.axis()
+	  .scale(dAreaScale)
+	  .orient("left");
+	d3.select("#plotDiv2")
+		.select("svg")
+		.append("g")
+		.attr("class","axis")
+		.attr("transform", "translate(" + paddingLeft + ",0)")
+		.call(yAxisPCTwoPlotTwo);
+	d3.select("#plotDiv2")
+		.select("svg")
+		.append("text")
+		.attr("class","axisLabel")
+		.attr("x",function(){
+			return yLabelX;
+		})
+		.attr("y",function(){
+			return yLabelY;
+		})
+		.attr("transform","rotate(90 "+yLabelX+" "+yLabelY+")")
+		.text("PC 2");
+	
 	writeHeadings();	
 	writeNamesAll(dataset);
 	drawCircles(dataset);
@@ -103,16 +159,9 @@ function writeHeadings(){
 		});
 }
 function writeNamesAll(dataset){
-	writeNames(dataset,"A");
-	writeNames(dataset,"B");
-	writeNames(dataset,"C");
-	writeNames(dataset,"D");
-	writeNames(dataset,"E");
-	writeNames(dataset,"F");
-	writeNames(dataset,"G");
-	writeNames(dataset,"H");
-	writeNames(dataset,"I");
-	writeNames(dataset,"J");
+	for (i = 0; i < genera.length; i++){ 
+		writeNames(dataset,genera[i]);
+	}
 }
 function writeNames(dataset,header){
 	d3.select("#speciesList")
@@ -139,6 +188,7 @@ function writeNames(dataset,header){
 		.remove();
 }
 function drawCircles(dataset){
+	//Plot 1
 	d3.select("#plotDiv1")
 		.select("svg")
 		.selectAll("circle")
@@ -164,6 +214,33 @@ function drawCircles(dataset){
 					return colors[i] + "0.3)";
 				}
 			});
+			
+	//Plot 2
+	d3.select("#plotDiv2")
+		.select("svg")
+		.selectAll("circle")
+		.data(dataset)
+		.enter()
+		.append("circle")
+		.attr("id",function(d){
+			return d.taxon;
+		})
+		.attr("class",function(d){
+			return d.genus;
+		})
+		.attr("r",5)
+		.attr("cx",function(d){
+			return pcOneScale(d.pc1);
+		})
+		.attr("cy",function(d){
+			return pcTwoScale(d.pc2);
+		})
+		.attr("fill",function(d){
+			for (i = 0; i < genera.length; i++) 
+				if (d.genus == genera[i]){
+					return colors[i] + "0.3)";
+				}
+			});
 }
 function highlightCircle(){
 	var colorOfSelect;
@@ -174,22 +251,30 @@ function highlightCircle(){
 			
 			id = d3.select(this).attr("id");
 
-			corrPoint = d3.select("#plotDiv1")
+			corrPointPlotOne = d3.select("#plotDiv1")
 				.selectAll("circle")
 				.filter(function(){
 					if (d3.select(this).attr("id") == id){
 						return this;
 					}
 				});
-			colorOfSelect = corrPoint.style("fill");
-			corrPoint.transition().attr("r","12");
-
-		});
-		d3.select("#speciesList")
-			.selectAll("p")
-			.on("mouseout",function(){
-				corrPoint.transition().attr("r","5").style("fill",colorOfSelect);
-			});
+			corrPointPlotTwo = d3.select("#plotDiv2")
+				.selectAll("circle")
+				.filter(function(){
+					if (d3.select(this).attr("id") == id){
+						return this;
+					}
+				});
+			colorOfSelect = corrPointPlotOne.style("fill");
+			corrPointPlotOne.transition().attr("r","12");
+			corrPointPlotTwo.transition().attr("r","12");
+	});
+	d3.select("#speciesList")
+		.selectAll("p")
+		.on("mouseout",function(){
+			corrPointPlotOne.transition().attr("r","5").style("fill",colorOfSelect);
+			corrPointPlotTwo.transition().attr("r","5").style("fill",colorOfSelect);
+	});
 }
 function highlightGenus(){
 	var genusID;
@@ -197,41 +282,63 @@ function highlightGenus(){
 		.selectAll("span.header")
 		.on("mouseover",function(){
 			genusID = d3.select(this).attr("id");
-			d3.select("#plotDiv1")
-			.selectAll("circle")
-			.filter(function(){
-				if (d3.select(this).attr("class") == genusID){
-					return this;
-				}
-			})
-			.transition()
-			.attr("r","7")
-			.style("fill",function(){
-				for (i = 0; i < genera.length; i++){ 
-					if (genusID == genera[i]){
-						return colors[i] + "0.7)";
+			plotOnePoints = d3.select("#plotDiv1")
+				.selectAll("circle")
+				.filter(function(){
+					if (d3.select(this).attr("class") == genusID){
+						return this;
 					}
-				}
+				});
+			plotTwoPoints = d3.select("#plotDiv2")
+				.selectAll("circle")
+				.filter(function(){
+					if (d3.select(this).attr("class") == genusID){
+						return this;
+					}
+				});
+			plotOnePoints
+				.transition()
+				.attr("r","7")
+				.style("fill",function(){
+					for (i = 0; i < genera.length; i++){ 
+						if (genusID == genera[i]){
+							return colors[i] + "0.7)";
+						}
+					}
+			});
+			plotTwoPoints
+				.transition()
+				.attr("r","7")
+				.style("fill",function(){
+					for (i = 0; i < genera.length; i++){ 
+						if (genusID == genera[i]){
+							return colors[i] + "0.7)";
+						}
+					}
 			});
 		});
 	d3.select("#speciesList")
 		.selectAll("span.header")
 		.on("mouseout",function(){
-			d3.select("#plotDiv1")
-			.selectAll("circle")
-			.filter(function(){
-				if (d3.select(this).attr("class") == genusID){
-					return this;
-				}
-			})
-			.transition()
-			.attr("r","5")
-			.style("fill",function(){
-				for (i = 0; i < genera.length; i++){ 
-					if (genusID == genera[i]){
-						return colors[i] + "0.3)";
+			plotOnePoints
+				.transition()
+				.attr("r","5")
+				.style("fill",function(){
+					for (i = 0; i < genera.length; i++){ 
+						if (genusID == genera[i]){
+							return colors[i] + "0.3)";
+						}
 					}
-				}
+			});
+			plotTwoPoints
+				.transition()
+				.attr("r","5")
+				.style("fill",function(){
+					for (i = 0; i < genera.length; i++){ 
+						if (genusID == genera[i]){
+							return colors[i] + "0.3)";
+						}
+					}
 			});
 		});
 }
