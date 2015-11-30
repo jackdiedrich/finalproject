@@ -1,7 +1,12 @@
-var w = 500;
-var h = 500;
-var paddingSides = 30;
-var paddingBottom = 20;
+var w = 600;
+var h = 400;
+var paddingRight = 5;
+var paddingLeft = 50;
+var paddingBottom = 35;
+var xLabelPadding = 0;
+
+var yLabelX = 5;
+var yLabelY = h/2 - 60;
 
 var genera = ["A","B","C","D","E","F","G","H","I","J"];
 
@@ -26,7 +31,7 @@ d3.csv("fakedata.csv", function(data) {
 
 	svScale = d3.scale.linear()
 		.domain([0,d3.max(dataset,function(d){return Number(d["sv"])})])
-		.range([paddingSides,w-paddingSides]);
+		.range([paddingLeft,w-paddingRight]);
 	dAreaScale = d3.scale.linear()
 		.domain([d3.max(dataset,function(d){return Number(d["d_area"])}),0])
 		.range([paddingBottom,h-paddingBottom]);
@@ -40,6 +45,17 @@ d3.csv("fakedata.csv", function(data) {
 		.attr("class","axis")
 		.attr("transform", "translate(0," + (h - paddingBottom) + ")")
 		.call(xAxis);
+	d3.select("#plotDiv1")
+		.select("svg")
+		.append("text")
+		.attr("class","axisLabel")
+		.attr("x",function(){
+			return w/2 - 50;
+		})
+		.attr("y",function(){
+			return h - xLabelPadding;
+		})
+		.text("Seed Volume (mm^3)");
 	var yAxis = d3.svg.axis()
 	  .scale(dAreaScale)
 	  .orient("left");
@@ -47,8 +63,20 @@ d3.csv("fakedata.csv", function(data) {
 		.select("svg")
 		.append("g")
 		.attr("class","axis")
-		.attr("transform", "translate(" + paddingSides + ",0)")
+		.attr("transform", "translate(" + paddingLeft + ",0)")
 		.call(yAxis);
+	d3.select("#plotDiv1")
+		.select("svg")
+		.append("text")
+		.attr("class","axisLabel")
+		.attr("x",function(){
+			return yLabelX;
+		})
+		.attr("y",function(){
+			return yLabelY;
+		})
+		.attr("transform","rotate(90 "+yLabelX+" "+yLabelY+")")
+		.text("Diaspore Area (cm^2)");
 	writeHeadings();	
 	writeNamesAll(dataset);
 	drawCircles(dataset);
@@ -169,7 +197,6 @@ function highlightGenus(){
 		.selectAll("span.header")
 		.on("mouseover",function(){
 			genusID = d3.select(this).attr("id");
-			console.log(genusID);
 			d3.select("#plotDiv1")
 			.selectAll("circle")
 			.filter(function(){
@@ -190,7 +217,6 @@ function highlightGenus(){
 	d3.select("#speciesList")
 		.selectAll("span.header")
 		.on("mouseout",function(){
-			console.log(genusID);
 			d3.select("#plotDiv1")
 			.selectAll("circle")
 			.filter(function(){
