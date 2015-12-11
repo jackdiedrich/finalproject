@@ -14,59 +14,51 @@ To view this with the dataset "iris.csv" [click here](https://rawgit.com/jackdie
 
 ## The data
 
-- The data source for this project is unpublished, and therefore the true names for the data have been substituded by fake names and values have been replaced by randomly generated numbers that fall within the range of true values. 
-- The data represented here are morphometric variables. Some are linear morphological measurements, some are area, and some are mass. In addition to these continuous variables, there are several characterizations that are discrete.
+- The data source for this project is unpublished, and therefore the dataset has been supplemented by the iris flower dataset. These match the unpublished data in the fact that they both describe morphological attributes, but they also both contain categories in which the samples can be binned, leading them both to fit into the structure of the visualization.
 
 ## Background
 
-To be updated:
-
-Since this data is currently unpublished, I am unable to provide links and images to previously existing graphics. However, in this dataset we are dealing with 178 points that fit into 9 groups. Consequently, the use of color to distinguish groups isn't very effective with so many different colors. In addition, while the reader may be able to distinguish groups based on color, many of the points represent specific species of interest that have been extensively studied, and the viewer may want to find a specific species on the plot. Therefore, an interactive approach would allow the viewer to highlight objects of interest, and allowing the viewer to interact with the phylogeny would allow them to gain some context for the distribution at different areas in the tree. 
+Since the original dataset is currently unpublished, I am unable to provide links and images to previously existing graphics. However, previous versions include plots with a phylogeny by side. However, except for colors that quickly become indistinguishable due to the 10 categories our dataset is binned into, there is no intuitive way that the viewer can link the plots to the evolutionary tree. Therefore, this project not only provides a way to link the plotted variables to their context within the dataset (the phylogeny), but allows the viewer to explore the data, quickly transitioning between different attributes in order to elucidate relationships.
 
 ## This project
 
 ### Mapping of data to aesthetics
 
-To be updated:
+Data are mapped to x, y coordinates on bivariate plots. The data categories are also binned by color. Additionally, data categories, names, and variables are mapped to text.
 
-Data are mapped to x, y coordinates on bivariate plots. The data will also be binned by color, representing genus. I chose to not use any varieties in size, which would be plotting a third dimension, as I think a simplistic, 2-dimensions at-a-time approach is more effective to situate the viewer with the data. 
-
-As the data continues collected, different shapes (2 different shapes) may be introduced to elucidate which values are from real biological specimens, and which values we produced in our empirical test.
 
 ### Filtering
 
-To be updated:
+Initially, the viewer sees the entire dataset, according to its names and categories (if the dataset is small enough, otherwise they can scroll down), and the viewer sees two plots with four different variables plotted. The viewer can then hover over a data category or an individual sample, and the points on the plot will be enlarged in order to elucidate their context within the plot. Similarly, the viewer can hover a point, upon which a tooltip will appear with the name of the datapoint, and its name in the left-side viewer will be enlarged, in order to elucidate its context within the dataset. 
 
-With multiple plots, all the data will be exposed to the viewer from the get-go. The viewer is then free to explore the data by interacting with it. Therefore, as of now, there will not be any data that the viewer cannot see upon opening the page.
+The viewer can then shift between which variables they would like to see plotted, by scrolling and clicking along the x and y-axis of each plot. This allows the perspective to be largely unconstrained.
 
 ### Extra ink
 
-To be updated:
+The fact that data names and categories are plotted to text may be considered extra ink. However, when viewing a dataset with a large number of categories, using color to distinguish categories quickly becomes unhelpful due to similar colors being repeated. Therefore, allowing the viewer to select points by hovering over a category name allows more effective elucidation. 
 
-The only redundancy currently present is perhaps the repetitve "Species" labels (e.g. Species 1, Species 2, etc.). These will eventually be replaced by binomials (e.g. Acer saccharum). Once these are present, the "Genus" labels may be redundant, but serve to bin the species into their specific genera, and therefore, I think the redundancy makes sense. Otherwise the species would be represented just by species name (e.g. saccharum), which requires the viewer to read the species name and then reference it to the genus it is binned in.
+Additionally, the second plot may be considered extra ink. However, the plot does work to compare more than 2 variables at one point, hopefully allow the viewer to better explore the dataset and relationships between variables.
+
+Lastly, there is quite a bit of extra ink in printing the many different variable names along each axis multiple times.
 
 ### Motion
 
-To be updated:
+Upon selecting a point or category, the points transition to becoming enlarged and slightly darker. This continuity allows the viewer to see where these points lie in the unhighlighted, normal plot. Without the transition, it might be hard for the viewer to understand which point is becoming enlarged.
 
-Future edits may allow the viewer to select the axes to allow for multiple bivariate comparisons. In this case, the points would move as the axes adjust. However, due to the nature of the data, this may not be an effective strategy, and separate plots will appear on the same page.
-
-Currently there is some "motion"; when the viewer mouses over a species, the point becomes darker, and this motion is used to attract the viewer to the point on the plot. I found that this strategy worked better than making all points more transparent and slightly darkening the selected point, since it created a "glitchy" effect each time the viewer moused on and out from a species.
+The points also shift and transition when the axes are changed. This allows the viewer to maintain continuity between the multiple perspectives offered by the visualization.
 
 ### Perspective
 
-To be updated:
-
-The user initially sees all data, and from there, can mouse over specific taxa in order to elucidate their space on the plot. Therefore, the user to some extent controls data filtering.
+The user initially views a constrained perspective, since they will only be looking at four separate variables on bivariate plots. From here though, the perspective is largely unconstrained, since this is meant to be more of a data exploration tool rather than a data exposition tool. The viewer views all names and all categories. The visualization allows the viewer to plot any variable, as long as it is contained within the data set and is numeric. 
 
 ## Assessment
 
 To be updated at the project end:
 
-- Was the new visualization successful at providing insight that was not possible or more difficult with previous approaches?
+- This visualization allows the viewer to "import" a dataset and quickly shift between plotting different variables as well as select the categories and points the viewer wishes to hone in on. Therefore, the dataset will hopefully provide insight to a user who is doing first-order analysis on a dataset, and will hopefully be a more effective tool than, for example, plotting in R and trying determine which variables are outlying. 
 
-- What are the main limitations of new approach?
+- The main limitations of this approach is the constrained type of dataset that a user could "import". Additionally, there may be "too much" information in shuffling between the two plots, the many options to select different axes. Therefore, it might actually be more simple to plot things in R in order to not be overwhelmed by so much information.
 
-- What are future directions this could go in?
+- Future versions of this project could allow the viewer to log-transform variables, hide samples or categories that they don't wish to see, and perhaps, if not exhaustive on the browser, run a linear regression between two variables.
 
 
