@@ -53,8 +53,6 @@ The user initially views a constrained perspective, since they will only be look
 
 ## Assessment
 
-To be updated at the project end:
-
 - This visualization allows the viewer to "import" a dataset and quickly shift between plotting different variables as well as select the categories and points the viewer wishes to hone in on. Therefore, the dataset will hopefully provide insight to a user who is doing first-order analysis on a dataset, and will hopefully be a more effective tool than, for example, plotting in R and trying determine which variables are outlying. 
 
 - The main limitations of this approach is the constrained type of dataset that a user could "import". Additionally, there may be "too much" information in shuffling between the two plots, the many options to select different axes. Therefore, it might actually be more simple to plot things in R in order to not be overwhelmed by so much information.
