@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+	<head>
+		<style type="text/css">
+			* {font-family: Verdana}
+			.yAxis path,
+			.yAxis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			.yAxis text {
+				font-size: 11px;
+			}
+			.xAxis path,
+			.xAxis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			.xAxis text {
+				font-size: 11px;
+			}
+			#speciesList{width:500px;height:875px;float:left}
+			#plotDiv1{float:center;display:inline-block}
+			#plotDiv2{float:center;display:inline-block}
+			#XLabels1{width:750px;float:center;display:inline-block}
+			#XLabels2{width:750px;float:center;display:inline-block}
+			p {font-weight:normal;font-size:10px;}
+			.name {display:inline-block; margin-left:5px}
+			.Xlabels {font-size:10px; fill:rgba(0,0,0,0.4)}
+			.Ylabels {font-size:10px; fill:rgba(0,0,0,0.4)}
+			.labelsHead {font-size:12px}
+			.toolTip{font-size:8px}
+		</style>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.10/d3.min.js"></script>
+	</head>
+	<body>
+		<div id="speciesList" style="overflow-y: auto"></div>
+		<div id='plotDiv1'></div>
+	  	<div id='XLabels1' style="overflow-x: scroll"></div>
+	  	<div id='plotDiv2'></div>
+	  	<div id='XLabels2' style="overflow-x: scroll"></div>
+		<script type="text/javascript" src="visualization.js"></script>
+	</body>
+</html>
