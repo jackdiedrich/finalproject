@@ -6,9 +6,9 @@ This is a final project for the [Interacting with Data](https://github.com/Brown
 
 This project was initially intended to be a visualization of a phylogeny and plots that corresponded to attributes of the various taxa on the tip labels. However, the dataset is unpublished, requiring a more flexible coding of the visualization. Consequently, this .js file should be able to read through most datasets as long as they are simple enough.
 
-This simple editing means that this could be a quick and easy tool for exploring a fairly high-dimensional dataset with many groups/categories, albeit probably only at a first pass in elucidating general relationships between variables, and the data within the context of the dataset. However, it may be able to serve as a good roadmap in the early stages of analysis within a project, due to the fact that it allows quick, but continous views between many different variables.
-
 To try out your own .csv on this visualization, clone this repository, move your .csv file into the repository, and make the necessary adjustments to the first several lines of "visualization.js" to customize it to your dataset.
+
+This simple editing means that this could be a quick and easy tool for exploring a fairly high-dimensional dataset with many groups/categories, albeit probably only at a first pass in elucidating general relationships between variables, and the data within the context of the dataset. However, it may be able to serve as a good roadmap in the early stages of analysis within a project, due to the fact that it allows quick, but continous views between many different variables.
 
 To view this with the dataset "iris.csv" [click here](https://rawgit.com/jackdiedrich/finalproject/master/index.html).
 
